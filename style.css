@@ -18,6 +18,7 @@
   --accent:      #0066CC;
   --accent-h:    #004C99;
   --border:      #D2D2D7;
+  --border-light:#E8E8ED;
   --radius:      12px;
   --radius-btn:  50px;
 
@@ -44,15 +45,16 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --bg:      #000000;
-    --bg-alt:  #111113;
-    --bg-card: #1C1C1E;
-    --fg:      #F5F5F7;
-    --fg-body: #A1A1A6;
-    --fg-muted:#6E6E73;
-    --accent:  #2997FF;
-    --accent-h:#0A84FF;
-    --border:  #38383A;
+    --bg:          #000000;
+    --bg-alt:      #111113;
+    --bg-card:     #1C1C1E;
+    --fg:          #F5F5F7;
+    --fg-body:     #A1A1A6;
+    --fg-muted:    #6E6E73;
+    --accent:      #2997FF;
+    --accent-h:    #0A84FF;
+    --border:      #38383A;
+    --border-light:#2C2C2E;
   }
 }
 
@@ -64,7 +66,7 @@ body {
   color: var(--fg);
   font-family: -apple-system, BlinkMacSystemFont, "Inter", "Segoe UI", "Roboto", "Helvetica Neue", sans-serif;
   font-size: var(--fs-base);
-  line-height: 1.6;
+  line-height: 1.7;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
@@ -78,6 +80,22 @@ body {
 }
 
 a { color: inherit; }
+
+/* ── Section Gradient Divider ───────────────────────────────── */
+.section {
+  padding: var(--sp-16) 0;
+  position: relative;
+}
+.section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(600px, 80%);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--border) 50%, transparent 100%);
+}
 
 /* ── Shared Components ──────────────────────────────────────── */
 
@@ -97,6 +115,14 @@ a { color: inherit; }
   transition: all 0.3s var(--ease);
   white-space: nowrap;
   line-height: 1.2;
+}
+.btn-lg {
+  padding: 17px 40px;
+  font-size: var(--fs-lg);
+}
+.btn-sm {
+  padding: 12px 24px;
+  font-size: var(--fs-sm);
 }
 .btn-accent {
   background: var(--accent);
@@ -119,10 +145,7 @@ a { color: inherit; }
   transform: translateY(-2px);
 }
 
-/* Section */
-.section {
-  padding: var(--sp-16) 0;
-}
+/* Section Heading */
 .section-heading {
   font-size: var(--fs-3xl);
   font-weight: 600;
@@ -152,12 +175,13 @@ a { color: inherit; }
   justify-content: center;
   text-align: center;
   padding: var(--sp-16) 0 var(--sp-12);
+  position: relative;
 }
 .hero-label {
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.16em;
   color: var(--fg-muted);
   margin-bottom: var(--sp-4);
 }
@@ -166,7 +190,17 @@ a { color: inherit; }
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.05;
-  margin-bottom: var(--sp-4);
+  margin-bottom: var(--sp-3);
+  position: relative;
+}
+/* Gradient glow line under title */
+.hero-glow {
+  width: min(400px, 60%);
+  height: 2px;
+  margin: 0 auto var(--sp-6);
+  background: linear-gradient(90deg, transparent 0%, var(--accent) 50%, transparent 100%);
+  opacity: 0.5;
+  border-radius: 1px;
 }
 .hero-sub {
   font-size: var(--fs-xl);
@@ -179,32 +213,35 @@ a { color: inherit; }
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2);
+  gap: 10px;
   justify-content: center;
   margin-bottom: var(--sp-8);
 }
 .badge {
   display: inline-block;
-  padding: 8px 20px;
+  padding: 5px 14px;
   border-radius: var(--radius-btn);
-  font-size: var(--fs-sm);
+  font-size: var(--fs-xs);
   font-weight: 500;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  color: var(--fg-body);
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--fg-muted);
   white-space: nowrap;
+  letter-spacing: 0.02em;
 }
 .hero-cta {
   display: flex;
   gap: var(--sp-3);
   justify-content: center;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 /* ══════════════════════════════════════════════════════════════
    Module 2 · Value Cards
    ══════════════════════════════════════════════════════════════ */
 .value-section { background: var(--bg-alt); }
+.value-section::before { display: none; } /* no divider on first section after hero */
 
 .value-grid {
   display: grid;
@@ -222,9 +259,15 @@ a { color: inherit; }
   transform: translateY(-6px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.08);
 }
-.card-emoji {
-  font-size: 2rem;
-  line-height: 1;
+.card-icon {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: var(--bg-alt);
+  color: var(--accent);
   margin-bottom: var(--sp-3);
 }
 .card-title {
@@ -235,7 +278,7 @@ a { color: inherit; }
 .card-body {
   font-size: var(--fs-base);
   color: var(--fg-body);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -278,6 +321,13 @@ a { color: inherit; }
   font-size: var(--fs-sm);
   color: var(--fg-body);
   line-height: 1.5;
+}
+.playbook-footnote {
+  text-align: center;
+  font-size: var(--fs-xs);
+  color: var(--fg-muted);
+  margin-top: var(--sp-6);
+  font-style: italic;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -377,6 +427,26 @@ a { color: inherit; }
   font-weight: 600;
   margin-bottom: var(--sp-4);
 }
+/* Price display */
+.acquire-price {
+  background: var(--bg-alt);
+  border-radius: 8px;
+  padding: var(--sp-3) var(--sp-4);
+  margin-bottom: var(--sp-4);
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+}
+.price-amount {
+  font-size: var(--fs-2xl);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.price-tag {
+  font-size: var(--fs-sm);
+  color: var(--fg-muted);
+}
 .acquire-list {
   list-style: none;
   margin-bottom: var(--sp-6);
@@ -387,7 +457,7 @@ a { color: inherit; }
   padding-left: var(--sp-3);
   margin-bottom: var(--sp-2);
   color: var(--fg-body);
-  line-height: 1.65;
+  line-height: 1.7;
 }
 .acquire-list li::before {
   content: '';
@@ -398,6 +468,20 @@ a { color: inherit; }
   height: 6px;
   border-radius: 50%;
   background: var(--accent);
+}
+/* Contact email display */
+.acquire-contact {
+  background: var(--bg-alt);
+  border-radius: 8px;
+  padding: var(--sp-2) var(--sp-3);
+  margin-bottom: var(--sp-4);
+  text-align: center;
+}
+.contact-email {
+  font-size: var(--fs-sm);
+  font-weight: 600;
+  color: var(--accent);
+  font-family: "SF Mono", "Menlo", "Monaco", "Courier New", monospace;
 }
 
 /* ══════════════════════════════════════════════════════════════
@@ -439,6 +523,32 @@ a { color: inherit; }
   font-weight: 600;
 }
 
+/* Pending (Coming Soon) cards */
+.follow-pending {
+  border-style: dashed;
+  opacity: 0.7;
+}
+.follow-pending:hover {
+  opacity: 1;
+}
+.follow-pending .follow-icon {
+  color: var(--fg-muted);
+}
+.follow-soon {
+  color: var(--fg-muted);
+  font-style: italic;
+  font-weight: 500;
+}
+
+/* Active (ready) card */
+.follow-active {
+  border-color: var(--accent);
+  border-width: 1.5px;
+}
+.follow-active .follow-handle {
+  color: var(--accent);
+}
+
 /* ══════════════════════════════════════════════════════════════
    Module 7 · Disclaimer
    ══════════════════════════════════════════════════════════════ */
@@ -446,6 +556,7 @@ a { color: inherit; }
   padding: var(--sp-8) 0;
   border-top: 1px solid var(--border);
 }
+.disclaimer-section::before { display: none; }
 .disclaimer-heading {
   font-size: var(--fs-lg);
   font-weight: 600;
@@ -508,7 +619,7 @@ a { color: inherit; }
   .section-heading { margin-bottom: var(--sp-6); }
 
   .hero-cta { flex-direction: column; align-items: center; }
-  .btn { width: 100%; max-width: 300px; justify-content: center; }
+  .btn, .btn-lg, .btn-sm { width: 100%; max-width: 300px; justify-content: center; }
 
   .value-grid,
   .acquire-grid { grid-template-columns: 1fr; }
@@ -520,7 +631,8 @@ a { color: inherit; }
 @media (max-width: 480px) {
   .wrap { padding: 0 var(--sp-3); }
   .hero { min-height: 60vh; }
-  .badge { font-size: var(--fs-xs); padding: 6px 14px; }
+  .badge { font-size: var(--fs-xs); padding: 4px 10px; }
   .card, .stat-card, .acquire-card, .follow-card { padding: var(--sp-4); }
   .tl-item { gap: var(--sp-3); }
+  .hero-glow { width: 70%; }
 }
